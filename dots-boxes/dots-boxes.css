@@ -1,0 +1,33 @@
+html,body {
+  background-color: #F0F0E6;
+}
+
+#game {
+  max-width: 405px;
+  margin: 0 auto;
+}
+
+.dot {
+  fill: #56524F;
+  stroke: #A7DBD8;
+  stroke-width: 0;
+  transition: all 0.2s;
+}
+
+.dot:hover {
+  stroke-width: 5;
+}
+
+.line {
+  stroke: #E0E4CC;
+  stroke-width: 2;
+}
+
+/*#E0E4CC*/
+/*#F38630*/
+/*#FA6900*/
+/*#A7DBD8*/
+/*#69D2E7*/
+
+/*#F0F0E6*/
+/*#56524F*/

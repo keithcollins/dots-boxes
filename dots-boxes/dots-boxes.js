@@ -4,6 +4,7 @@
   var NUM_BOXES = 9;
   var BOXES_PER_SIDE = 3;
   var DOT_RADIUS = 40;
+  var NUM_LINES = 12;
   var WIDTH = 405;
   var HEIGHT = 720;
   var INNDER_WIDTH = WIDTH - (DOT_RADIUS*2);
@@ -16,6 +17,7 @@
   // which are equal to DOT_RADIUS
   var svg = d3.select("#game").append("svg")
     .attr("viewBox", "0 0 "+WIDTH+" "+HEIGHT)
+    .on("mousemove",mousemove)
     .append("g").attr("transform","translate("+DOT_RADIUS+","+DOT_RADIUS+")");
 
   // Create an array of objects with
@@ -29,6 +31,9 @@
       id: i
     };
   });
+
+  var linesG = svg.append("g");
+  var moveline = null;
 
   var dots = svg.selectAll(".dot")
     .data(dotGrid)
@@ -44,6 +49,21 @@
       .style("stroke","#69D2E7")
       .style("stroke-width",5);
 
+    moveline = linesG.append("line")
+      .attr("class","line moveline")
+      .attr("x1",startDot.attr("cx"))
+      .attr("y1",startDot.attr("cy"))
+      .attr("x2",startDot.attr("cx"))
+      .attr("y2",startDot.attr("cy"));
   });
+
+  function mousemove() {
+    if (moveline) {
+      var coords = d3.mouse(this);
+      moveline
+        .attr("x2",coords[0]-DOT_RADIUS)
+        .attr("y2",coords[1]-DOT_RADIUS);
+    }
+  }
 
 })()

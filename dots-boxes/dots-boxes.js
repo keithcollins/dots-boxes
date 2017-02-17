@@ -1,4 +1,15 @@
 (function(){
+  class Dot {
+    constructor(id,x,y) {
+      this.id = id;
+      this.x = x;
+      this.y = y;
+    }
+  }
+
+  function heuristic(dotA, dotB) {
+    return Math.abs(dotA.x - dotB.x) + Math.abs(dotA.y - dotB.y);
+  }
   // Define constants
   // Some will be user-defined
   var NUM_BOXES = 9;
@@ -25,11 +36,7 @@
   var yIndex = -1;
   var dotGrid = d3.range(NUM_BOXES).map(function(d,i){
     yIndex += (i%BOXES_PER_SIDE == 0) ? 1 : 0;
-    return {
-      xPos: DOT_SCALE(i%BOXES_PER_SIDE),
-      yPos: DOT_SCALE(yIndex),
-      id: i
-    };
+    return new Dot(i,DOT_SCALE(i%BOXES_PER_SIDE),DOT_SCALE(yIndex));
   });
 
   var linesG = svg.append("g");
@@ -40,21 +47,23 @@
     .enter().append("circle")
     .attr("class","dot")
     .attr("id",function(d){ return "d"+d.id})
-    .attr("cx",function(d){ return d.xPos})
-    .attr("cy",function(d){ return d.yPos})
+    .attr("cx",function(d){ return d.x})
+    .attr("cy",function(d){ return d.y})
     .attr("r",DOT_RADIUS);
 
   dots.on("mousedown",function(){
-    var startDot = d3.select(this)
+    var startDotEl = d3.select(this)
       .style("stroke","#69D2E7")
       .style("stroke-width",5);
 
+    var startDot = startDotEl["0"]["0"].__data__;
+
     moveline = linesG.append("line")
       .attr("class","line moveline")
-      .attr("x1",startDot.attr("cx"))
-      .attr("y1",startDot.attr("cy"))
-      .attr("x2",startDot.attr("cx"))
-      .attr("y2",startDot.attr("cy"));
+      .attr("x1",startDotEl.attr("cx"))
+      .attr("y1",startDotEl.attr("cy"))
+      .attr("x2",startDotEl.attr("cx"))
+      .attr("y2",startDotEl.attr("cy"));
   });
 
   function mousemove() {

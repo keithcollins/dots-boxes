@@ -1,4 +1,5 @@
-var d3 = require("d3");
+// var d3 = require("d3");
+import * as d3 from "d3";
 
 class Dot {
   constructor(id,x,y) {
@@ -15,7 +16,7 @@ class Dot {
 }
 
 function dataFromEl(el) {
-  return el["0"]["0"].__data__;
+  return el["_groups"]["0"]["0"].__data__;
 }
 
 
@@ -29,10 +30,10 @@ var WIDTH = 405;
 var HEIGHT = 720;
 var INNDER_WIDTH = WIDTH - (DOT_RADIUS*2);
 var INNER_HEIGHT = HEIGHT - (DOT_RADIUS*2);
-var DOT_SCALE = d3.scale.ordinal()
+var DOT_SCALE = d3.scalePoint()
   .domain(d3.range(BOXES_PER_SIDE))
-  .rangePoints([0,INNDER_WIDTH]);
-var RANGE_STEP = DOT_SCALE.range()[1] - DOT_SCALE.range()[0];
+  .range([0,INNDER_WIDTH]);
+// var RANGE_STEP = DOT_SCALE.range()[1] - DOT_SCALE.range()[0];
 
 // Append svg and group transformed to margins,
 // which are equal to DOT_RADIUS
@@ -68,7 +69,7 @@ dots.on("mousedown",function(){
 
   var startDot = dataFromEl(startDotEl);
 
-  console.log(Dot.distance(startDot, dotGrid[1])/RANGE_STEP);
+  console.log(Dot.distance(startDot, dotGrid[1])/DOT_SCALE.step());
 
   moveline = linesG.append("line")
     .attr("class","line moveline")

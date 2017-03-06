@@ -1,0 +1,11 @@
+dependencies:
+  - 'devUpdate'
+spec:
+  - 'eslint'
+  - 'karma:continuous'
+build:
+  - 'spec'
+  - 'clean'
+  - 'browserify:js'
+default:
+  - 'build'
